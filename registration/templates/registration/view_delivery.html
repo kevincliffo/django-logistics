@@ -1,0 +1,67 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% block content %}
+
+  <!--  <div class="details">
+    	{% if delivery.Delivery_ID %}
+	        <div class="id">
+	            {{ delivery.Delivery_ID }}
+	        </div>
+	    {% endif %}
+        <h1>{{ delivery.Delivery_ID }}</a></h1>
+        <p>{{ delivery.Delivery_Total|linebreaks }}</p>-->
+
+<!-- TABS
+================================================== -->
+<div class="padding_30">
+  <div class="container">
+
+    <div class="row">
+      <div class="compo_tab">
+        <div class="">
+          <div class="compo_title">
+            <h3 class="h3 text-left">Хүргэлт: {{ delivery.Delivery_ID }}</h3>
+            <hr>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h5 class="text-left">Хүргэлтийн төлөв: <strong>{{ delivery.Status_ID.Status }}</strong></h5>
+              {% if delivery.Status_Reason %}
+                <h5 class="text-left">Шалтгаан: <strong>{{ delivery.Status_Reason }}</strong></h5>
+              {% endif %}
+              <h5 class="text-left">Хүргэгдэх огноо: <strong>{{ delivery.Delivery_Est_Date|date:"Y M d" }}</strong></h5>
+              {% if request.user.is_authenticated %}
+                {% if request.user.username == delivery.User.username %}
+                  <h5 class="text-left">Нийт төлбөр: <strong>{{ delivery.Delivery_Total }}₮</strong></h5>
+                  <hr>
+                  <h5 class="text-left">Илгээгч: <strong>{{ delivery.Delivery_Sender }}</strong></h5>
+                  <h5 class="text-left">Илгээгчийн утасны дугаар: <strong>{{ delivery.Delivery_Sender_Phone }}</strong></h5>
+                  <h5 class="text-left">Илгээгчийн хаяг: <strong>{{ delivery.State_ID.State }}, {{ delivery.SubState_ID.SubState }}, {{ delivery.From_Address }}</strong></h5>
+                  <br>
+                  <h5 class="text-left">Хүлээн авагч: <strong>{{ delivery.Delivery_Recipient }}</strong></h5>
+                  <h5 class="text-left">Хүлээн авагчийн утасны дугаар: <strong>{{ delivery.Delivery_Recipient_Phone }}</strong></h5>
+                  <h5 class="text-left">Хүлээн авагчийн хаяг: <strong>{{ delivery.To_State_ID.State }}, {{ delivery.To_SubState_ID.SubState }}, {{ delivery.To_Address }}</strong></h5>
+                {% endif %}
+              {% endif %}
+            </div>
+            <div class="col-md-6">
+              {% if delivery.Status_ID == 3 %}
+                {% if delivery.Recipient_Signature %}
+                  <h4 class="h5 text-left">Хүлээн авагчийн бичиг баримт, гарын үсэг:</h4>
+                  <img class="img-responsive" src="{{ delivery.Recipient_Signature.url }}" alt="sign"/>
+                {% else %}
+                <img class="img-responsive" src="{% static 'tracking.png' %}">
+                {% endif %}
+              {% else %}
+                <img class="img-responsive" src="{% static 'tracking.png' %}">
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>     
+  </div>
+</div>
+
+<!--End of Tabs-->
+{% endblock %}
